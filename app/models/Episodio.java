@@ -23,7 +23,7 @@ public class Episodio {
     @Column
     private boolean assistido;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     Temporada temporada;
 
     public Episodio(String nome, Temporada temporada, int numero) throws Exception {
@@ -40,9 +40,6 @@ public class Episodio {
     }
 
     public void setNome(String nome) throws Exception {
-        if (nome.equals("")){
-            throw new Exception("Nome não deve ser vazio!");
-        }
         this.nome = nome;
     }
 
@@ -75,9 +72,6 @@ public class Episodio {
     }
 
     public void setNumero(int numero) throws Exception {
-        if (numero <= 0){
-            throw new Exception("Número da temporada não deve ser menor que 0!");
-        }
         this.numero = numero;
     }
 }

@@ -19,11 +19,11 @@ public class Temporada {
     @Column
     private int numero;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn
     List<Episodio> episodios;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     Serie serie;
 
     public Temporada(){
@@ -49,9 +49,6 @@ public class Temporada {
     }
 
     public void setNumero(int numero) throws Exception {
-        if (numero <= 0){
-            throw new Exception("Número da temporada deve ser maior que 0!");
-        }
         this.numero = numero;
     }
 
@@ -59,7 +56,7 @@ public class Temporada {
         return episodios;
     }
 
-    public void addEpisodios(Episodio episodio) {
+    public void addEpisodio(Episodio episodio) {
         episodios.add(episodio);
     }
 
@@ -71,13 +68,33 @@ public class Temporada {
         this.serie = serie;
     }
 
-    public int getQuantidadeAssistida(){
-        int quantidade = 0;
-        for (Episodio episodio: episodios){
+    public int getQuantidadeDeEpisodiosAssistidos(){
+        int cont = 0;
+        for(Episodio episodio: episodios){
             if (episodio.isAssistido()){
-                quantidade++;
+                cont++;
             }
         }
-        return quantidade;
+        return cont;
+    }
+
+    public int getTotalDeEpisodios(){
+        return episodios.size();
+    }
+
+    public boolean ehOProximoASerAssistido(long id){
+        int indexUltimo = episodios.size();
+        for (int i = episodios.size() - 1; i >= 0; i--){
+            if (episodios.get(i).isAssistido()){
+                indexUltimo = i;
+                break;
+            }
+        }
+
+        if (indexUltimo >= episodios.size() - 1){
+            return false;
+        } else {
+            return episodios.get(indexUltimo + 1).getId() == id;
+        }
     }
 }

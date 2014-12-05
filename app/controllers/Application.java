@@ -42,13 +42,15 @@ public class Application extends Controller {
         } else {
             Episodio episodio = dao.findByEntityId(Episodio.class, id);
 
+            episodio.setAssistido(true);
+
             Logger.debug("Assistindo episodio: " + filledForm.data().toString() + " como " + episodio.getNome());
 
             dao.merge(episodio);
 
             dao.flush();
 
-            return series();
+            return index();
         }
 
     }
@@ -64,13 +66,17 @@ public class Application extends Controller {
         } else {
             Serie serie = dao.findByEntityId(Serie.class, id);
 
+            serie.setAssistindo(true);
+
             Logger.debug("Assistindo serie: " + filledForm.data().toString() + " como " + serie.getNome());
 
             dao.merge(serie);
 
             dao.flush();
 
-            return series();
+            return index();
         }
     }
+
+
 }

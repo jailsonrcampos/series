@@ -20,7 +20,7 @@ public class Serie {
     @Column
     private boolean assistindo;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn
     List<Temporada> temporadas;
 
@@ -47,9 +47,6 @@ public class Serie {
     }
 
     public void setNome(String nome) throws Exception {
-        if (nome.equals("")){
-            throw new Exception("Nome da série não deve ser vazio");
-        }
         this.nome = nome;
     }
 
@@ -67,5 +64,9 @@ public class Serie {
 
     public void addTemporada(Temporada temporada){
         temporadas.add(temporada);
+    }
+
+    public Temporada temporadaMaisNova(){
+        return temporadas.get(temporadas.size() - 1);
     }
 }

@@ -27,7 +27,32 @@
                                 </div>
 
                                 <div class="panel-body">
-
+                                    @for(serie <- series){
+                                        @if(!serie.isAssistindo){
+                                            <div id="accordion" class="panel-group">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getId">@serie.getNome</a>
+                                                            <form class="pull-right" action="@routes.Application.assistirSerie(serie.getId)" method="post" >
+                                                                <button class="btn btn-success">Começar a assistir</button>
+                                                            </form>
+                                                        </h4>
+                                                        <br/>
+                                                    </div>
+                                                    <div id="@serie.getId" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            <ul>
+                                                                @for(temporada <- serie.getTemporadas){
+                                                                    <li>Temporada - @temporada.getNumero</li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -39,7 +64,63 @@
                                 </div>
 
                                 <div class="panel-body">
+                                @for(serie <- series){
+                                    @if(serie.isAssistindo){
+                                        <div id="accordion" class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getId">@serie.getNome</a>
+                                                    </h4>
+                                                    <br/>
+                                                </div>
+                                                <div id="@serie.getId" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        @for(temporada <- serie.getTemporadas){
+                                                            <div id="accordion" class="panel-group">
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading">
+                                                                        <h4 class="panel-title">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#@temporada.getId">@temporada.getNumero Temporada - @temporada.getQuantidadeDeEpisodiosAssistidos/@temporada.getTotalDeEpisodios</a>
+                                                                        </h4>
+                                                                        <br/>
+                                                                    </div>
+                                                                    <div id="@temporada.getId" class="panel-collapse collapse">
+                                                                        <div class="panel-body">
+                                                                        <ol>
+                                                                            @for(episodio <- temporada.getEpisodios){
+                                                                                @if(episodio.isAssistido){
+                                                                                    <li>
+                                                                                        <del>@episodio.getNome</del>
+                                                                                    </li>
+                                                                                    <br/>
+                                                                                } else {
+                                                                                    <li>
+                                                                                        @if(temporada.ehOProximoASerAssistido(episodio.getId)){
+                                                                                            @episodio.getNome (PRÓXIMO)
+                                                                                        } else {
+                                                                                            @episodio.getNome
+                                                                                        }
 
+                                                                                        <form class="pull-right" action="@routes.Application.assistirEpisodio(episodio.getId)" method="post" >
+                                                                                            <button class="btn btn-success">Já assisti!</button>
+                                                                                        </form>
+                                                                                    </li>
+                                                                                    <br/>
+                                                                                }
+                                                                            }
+                                                                        </ol>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
                                 </div>
 
                             </div>
