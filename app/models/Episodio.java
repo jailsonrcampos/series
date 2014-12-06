@@ -40,6 +40,9 @@ public class Episodio {
     }
 
     public void setNome(String nome) throws Exception {
+        if (nome.equals("")){
+            throw new Exception("Nome do episódio não deve ser vazio!");
+        }
         this.nome = nome;
     }
 
@@ -63,7 +66,10 @@ public class Episodio {
         return temporada;
     }
 
-    public void setTemporada(Temporada temporada) {
+    public void setTemporada(Temporada temporada) throws Exception {
+        if(temporada == null){
+            throw new Exception("Temporada não deve ser nula!");
+        }
         this.temporada = temporada;
     }
 
@@ -72,6 +78,9 @@ public class Episodio {
     }
 
     public void setNumero(int numero) throws Exception {
+        if (numero < 0){
+            throw new Exception("Episódio não deve ser negativo!");
+        }
         this.numero = numero;
     }
 }

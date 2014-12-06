@@ -32,21 +32,6 @@ public class Global extends GlobalSettings {
             }});
     }
 
-    @Override
-    public void onStop(Application app){
-        JPA.withTransaction(new play.libs.F.Callback0() {
-            @Override
-            public void invoke() throws Throwable {
-                Logger.info("Aplicação finalizando...");
-
-                List<Serie> series = dao.findAllByClass(Serie.class);
-
-                for (Serie meta : series) {
-                    dao.removeById(Serie.class, meta.getId());
-                }
-            }});
-    }
-
     public void iniciaBanco() throws Exception{
 
         String csvFile = Play.application().getFile("/app/seriesFinalFile.csv").getAbsolutePath();

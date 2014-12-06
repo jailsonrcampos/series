@@ -49,6 +49,9 @@ public class Temporada {
     }
 
     public void setNumero(int numero) throws Exception {
+        if (numero < 0){
+            throw new Exception("Número da temporada não deve ser negativa!");
+        }
         this.numero = numero;
     }
 
@@ -56,7 +59,10 @@ public class Temporada {
         return episodios;
     }
 
-    public void addEpisodio(Episodio episodio) {
+    public void addEpisodio(Episodio episodio) throws Exception {
+        if (episodio == null){
+            throw new Exception("Episódio não deve ser nulo!");
+        }
         episodios.add(episodio);
     }
 
@@ -64,7 +70,10 @@ public class Temporada {
         return serie;
     }
 
-    public void setSerie(Serie serie) {
+    public void setSerie(Serie serie) throws Exception {
+        if (serie == null){
+            throw new Exception("Serie não deve ser nula!");
+        }
         this.serie = serie;
     }
 

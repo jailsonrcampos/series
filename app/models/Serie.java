@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by orion on 03/12/14.
  */
-@Entity
+@Entity (name="Serie")
 public class Serie {
 
     @Id
@@ -62,7 +62,10 @@ public class Serie {
         return temporadas;
     }
 
-    public void addTemporada(Temporada temporada){
+    public void addTemporada(Temporada temporada) throws Exception {
+        if (temporada == null){
+            throw new Exception("Temporada não deve ser nula!");
+        }
         temporadas.add(temporada);
     }
 
