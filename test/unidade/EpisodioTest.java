@@ -16,7 +16,7 @@ public class EpisodioTest {
     Episodio episodio;
 
     @Test
-    public void naoDeveAdicionarEpisodioComNomeVazio(){
+    public void naoDeveCriarEpisodioComNomeVazio(){
         try {
             Serie serie = new Serie("Sons of Anarchy");
             Temporada temporada = new Temporada(1, serie);
@@ -28,7 +28,7 @@ public class EpisodioTest {
     }
 
     @Test
-    public void naoDeveAdicionarEpisodioComTemporadaNula(){
+    public void naoDeveCriarrEpisodioComTemporadaNula(){
         try {
             episodio = new Episodio("Episódio 1", null, 1);
             fail();
@@ -38,7 +38,7 @@ public class EpisodioTest {
     }
 
     @Test
-    public void naoDeveAdicionarEpisodioComNumeroNegativo(){
+    public void naoDeveCriarEpisodioComNumeroNegativo(){
         try {
             Serie serie = new Serie("Sons of Anarchy");
             Temporada temporada = new Temporada(1, serie);
