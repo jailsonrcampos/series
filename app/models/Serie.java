@@ -47,6 +47,9 @@ public class Serie {
     }
 
     public void setNome(String nome) throws Exception {
+        if (nome.equals("")){
+            throw new Exception("Nome da série não deve ser vazia");
+        }
         this.nome = nome;
     }
 
