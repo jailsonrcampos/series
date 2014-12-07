@@ -57,7 +57,7 @@ public class Global extends GlobalSettings {
                     episodio = new Episodio("Sem Título", serie.temporadaMaisNova(), parseInt(listFromCSV[2]));
                 }
 
-                if (serie.getNome().equals(listFromCSV[0])){
+                if (serie.getNome().replace("'", "").equals(listFromCSV[0].replace("'", ""))){
 
                     if (serie.getTemporadas().size()!=0 && serie.temporadaMaisNova().getNumero()==parseInt(listFromCSV[1])) {
                         serie.temporadaMaisNova().addEpisodio(episodio);
@@ -68,16 +68,14 @@ public class Global extends GlobalSettings {
                     }
                 } else{
                     dao.persist(serie);
-                    serie = new Serie(listFromCSV[0]);
+                    serie = new Serie(listFromCSV[0].replace("'", ""));
                     temporada = new Temporada(parseInt(listFromCSV[1]),serie);
                     temporada.addEpisodio(episodio);
                     serie.addTemporada(temporada);
                 }
             }
-        }
-
-
-        catch (Exception e) {
+            dao.persist(serie);
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (br != null) {
@@ -89,4 +87,5 @@ public class Global extends GlobalSettings {
             }
         }
     }
+
 }

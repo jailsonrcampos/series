@@ -75,4 +75,22 @@ public class Serie {
     public Temporada temporadaMaisNova(){
         return temporadas.get(temporadas.size() - 1);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (this == null || getClass() != this.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Serie serie = (Serie) obj;
+
+        if (!nome.equals(serie.nome)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
+    }
 }
