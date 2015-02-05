@@ -27,7 +27,7 @@ public class Global extends GlobalSettings {
         JPA.withTransaction(new play.libs.F.Callback0() {
             @Override
             public void invoke() throws Throwable {
-                iniciaBanco();
+                //iniciaBanco();
                 
                 Serie serie = new Serie("South Park");
                 Temporada temporada =  new Temporada(1, serie);
@@ -35,7 +35,8 @@ public class Global extends GlobalSettings {
                 temporada.addEpisodio(episodio);
                 serie.addTemporada(temporada);
                 dao.persist(serie);
-                
+                dao.persist(temporada);
+                dao.persist(episodio);
                 dao.flush();
             }});
     }
