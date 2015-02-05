@@ -28,6 +28,14 @@ public class Global extends GlobalSettings {
             @Override
             public void invoke() throws Throwable {
                 iniciaBanco();
+                
+                Serie serie = new Serie("South Park");
+                Temporada temporada =  new Temporada(1, serie);
+                Episodio episodio = new Episodio("Cartman Gets an Anal Probe", temporada, 1);
+                temporada.addEpisodio(episodio);
+                serie.addTemporada(temporada);
+                dao.persist(serie);
+                
                 dao.flush();
             }});
     }
