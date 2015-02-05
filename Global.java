@@ -34,7 +34,8 @@ public class Global extends GlobalSettings {
 
     public void iniciaBanco() throws Exception{
 
-        String csvFile = Play.application().getFile("/app/seriesFinalFile.csv").getAbsolutePath();
+        // String csvFile = Play.application().getFile("seriesFinalFile.csv").getAbsolutePath();
+        String csvFile = "seriesFinalFile.csv";
         BufferedReader br = null;
         String line = "";
 
