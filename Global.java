@@ -13,6 +13,10 @@ import models.dao.GenericDAO;
 public class Global extends GlobalSettings {
 	
 	private static final GenericDAO dao = new GenericDAO();
+	
+	@Override
+    public void onStart(Application app) {
+        Logger.info("Aplicação inicializada...");
 
 		JPA.withTransaction(new play.libs.F.Callback0() {
 			
