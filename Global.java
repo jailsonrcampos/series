@@ -14,63 +14,6 @@ public class Global extends GlobalSettings {
 	
 	private static final GenericDAO dao = new GenericDAO();
 
-<<<<<<< HEAD
-	@Override
-	public void onStart(Application app) {
-		Logger.info("inicializada...");
-=======
-    private static GenericDAO dao = new GenericDAO();
-
-    @Override
-    public void onStart(Application app) {
-        Logger.info("Aplicação inicializada...");
-
-        JPA.withTransaction(new play.libs.F.Callback0() {
-            @Override
-            public void invoke() throws Throwable {
-                //iniciaBanco();
-                
-                Serie serie = new Serie("South Park");
-                Temporada temporada =  new Temporada(1, serie);
-                Episodio episodio = new Episodio("Cartman Gets an Anal Probe", temporada, 1);
-                temporada.addEpisodio(episodio);
-                serie.addTemporada(temporada);
-                dao.persist(serie);
-                dao.persist(temporada);
-                dao.persist(episodio);
-                dao.flush();
-            }});
-    }
-
-    public void iniciaBanco() throws Exception{
-
-        String csvFile = Play.application().getFile("seriesFinalFile.csv").getAbsolutePath();
-        //String csvFile = "seriesFinalFile.csv";
-        BufferedReader br = null;
-        String line = "";
-
-        try {
-
-            br = new BufferedReader(new FileReader(csvFile));
-            String[] listFromCSV = line.split(",");
-            Serie serie = new Serie("South Park");
-            Temporada temporada =  new Temporada(1, serie);
-            Episodio episodio = new Episodio("Cartman Gets an Anal Probe", temporada, 1);
-            temporada.addEpisodio(episodio);
-            serie.addTemporada(temporada);
-            line = br.readLine();
-
-            while ((line = br.readLine()) != null) {
-                listFromCSV = line.split(",");
-                if (listFromCSV.length>=4) {
-                    episodio = new Episodio(listFromCSV[3], serie.temporadaMaisNova(), parseInt(listFromCSV[2]));
-                } else {
-                    episodio = new Episodio("Sem Título", serie.temporadaMaisNova(), parseInt(listFromCSV[2]));
-                }
-
-                if (serie.getNome().replace("'", "").equals(listFromCSV[0].replace("'", ""))){
->>>>>>> origin/master
-
 		JPA.withTransaction(new play.libs.F.Callback0() {
 			
 			public void invoke() throws Throwable {
