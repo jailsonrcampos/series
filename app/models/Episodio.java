@@ -3,7 +3,7 @@ package models;
 import javax.persistence.*;
 
 /**
- * Created by orion on 03/12/14.
+ * Created by orion on 03/12/14 and edited by jailson on 05/02/15.
  */
 
 @Entity(name = "Episodio")

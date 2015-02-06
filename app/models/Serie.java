@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by orion on 03/12/14.
+ * Created by orion on 03/12/14 and edited by jailson on 05/02/15.
  */
 @Entity (name="Serie")
 public class Serie {
@@ -24,8 +24,7 @@ public class Serie {
     @JoinColumn
     List<Temporada> temporadas;
 
-    public Serie(){
-        this.temporadas = new LinkedList<Temporada>();
+    public Serie() {
     }
 
     public Serie(String nome) throws Exception {
@@ -47,8 +46,8 @@ public class Serie {
     }
 
     public void setNome(String nome) throws Exception {
-        if (nome.equals("")){
-            throw new Exception("Nome da série não deve ser vazia");
+        if (nome.equals("") || nome == null){
+            throw new Exception("Nome da série não deve ser vazia ou null");
         }
         this.nome = nome;
     }
