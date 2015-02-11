@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by orion on 03/12/14.
+ * Created by orion on 03/12/14 and edited by jailson on 05/02/15.
  */
 
 @Entity(name = "Temporada")
@@ -18,20 +18,25 @@ public class Temporada {
 
     @Column
     private int numero;
+    
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn
+    private ProximoEpisodioStrategy proximoEpisodioExtrator;
 
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn
-    List<Episodio> episodios;
+    private List<Episodio> episodios;
 
     @ManyToOne(cascade=CascadeType.ALL)
-    Serie serie;
+    private Serie serie;
 
     public Temporada(){
         this.episodios = new LinkedList<Episodio>();
+        this.proximoEpisodioExtrator = new MaisAntigoDepoisDoUltimoAssistido();
     }
 
     public Temporada(int numero, Serie serie) throws Exception {
-        this.episodios = new LinkedList<Episodio>();
+        this();
         setNumero(numero);
         setSerie(serie);
     }
@@ -40,17 +45,13 @@ public class Temporada {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public int getNumero() {
         return numero;
     }
 
     public void setNumero(int numero) throws Exception {
-        if (numero < 0){
-            throw new Exception("Número da temporada não deve ser negativa!");
+        if (numero <= 0){
+            throw new Exception("O Número da temporada não pode ser menor ou igual a zero!");
         }
         this.numero = numero;
     }
@@ -61,7 +62,7 @@ public class Temporada {
 
     public void addEpisodio(Episodio episodio) throws Exception {
         if (episodio == null){
-            throw new Exception("Episódio não deve ser nulo!");
+            throw new Exception("Episódio não pode ser nulo!");
         }
         episodios.add(episodio);
     }
@@ -72,7 +73,7 @@ public class Temporada {
 
     public void setSerie(Serie serie) throws Exception {
         if (serie == null){
-            throw new Exception("Serie não deve ser nula!");
+            throw new Exception("Serie não pode ser nula!");
         }
         this.serie = serie;
     }
@@ -91,19 +92,19 @@ public class Temporada {
         return episodios.size();
     }
 
-    public boolean ehOProximoASerAssistido(long id){
-        int indexUltimo = episodios.size();
-        for (int i = episodios.size() - 1; i >= 0; i--){
-            if (episodios.get(i).isAssistido()){
-                indexUltimo = i;
-                break;
-            }
+    public boolean isProximoEpisodioAssistir(Episodio episodioAtual) throws Exception {
+    	if (episodioAtual == null){
+            throw new Exception("O Episodio não pode ser null!");
         }
-
-        if (indexUltimo >= episodios.size() - 1){
-            return false;
-        } else {
-            return episodios.get(indexUltimo + 1).getId() == id;
-        }
+        return proximoEpisodioExtrator.isProximoEpisodioAssistir(episodios, episodioAtual);
     }
+
+	public ProximoEpisodioStrategy getProximoEpisodioExtrator() {
+		return proximoEpisodioExtrator;
+	}
+
+	public void setProximoEpisodioExtrator(ProximoEpisodioStrategy proximoEpisodioExtrator) {
+		this.proximoEpisodioExtrator = proximoEpisodioExtrator;
+	}
+    
 }

@@ -22,7 +22,7 @@ public class Serie {
 
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn
-    List<Temporada> temporadas;
+    private List<Temporada> temporadas;
 
     public Serie() {
     }

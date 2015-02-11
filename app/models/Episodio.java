@@ -24,7 +24,7 @@ public class Episodio {
     private boolean assistido;
 
     @ManyToOne(cascade=CascadeType.ALL)
-    Temporada temporada;
+    private Temporada temporada;
 
     public Episodio(String nome, Temporada temporada, int numero) throws Exception {
         setNome(nome);
@@ -83,4 +83,13 @@ public class Episodio {
         }
         this.numero = numero;
     }
+    
+    @Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Episodio)) {
+			return false;
+		}
+		Episodio temp = (Episodio) obj;
+		return this.nome.equals(temp.getNome());
+	}
 }

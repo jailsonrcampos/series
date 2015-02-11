@@ -23,7 +23,7 @@
                         <div class="col-sm-6">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <h3 class="text-center">Séries não Assistidas</h3>
+                                    <h3 class="text-center">Séries Não Acompanhadas</h3>
                                 </div>
 
                                 <div class="panel-body">
@@ -35,7 +35,7 @@
                                                         <h4 class="panel-title">
                                                             <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getNome.split(" ")@serie.getId">@serie.getNome</a>
                                                             <form class="pull-right" action="@routes.Application.assistirSerie(serie.getId)" method="post" >
-                                                                <button class="btn btn-success">Começar a assistir</button>
+                                                                <button class="btn btn-success btn-xs">Acompanhar</button>
                                                             </form>
                                                         </h4>
                                                         <br/>
@@ -82,6 +82,7 @@
                                                                     <div class="panel-heading">
                                                                         <h4 class="panel-title">
                                                                             <a data-toggle="collapse" data-parent="#accordion" href="#@temporada.getId@temporada.getSerie.getNome.split(" ")">@temporada.getNumero Temporada - @temporada.getQuantidadeDeEpisodiosAssistidos/@temporada.getTotalDeEpisodios</a>
+                                                                            
                                                                         </h4>
                                                                         <br/>
                                                                     </div>
@@ -96,14 +97,14 @@
                                                                                     <br/>
                                                                                 } else {
                                                                                     <li>
-                                                                                        @if(temporada.ehOProximoASerAssistido(episodio.getId)){
+                                                                                        @if(temporada.isProximoEpisodioAssistir(episodio)){
                                                                                             @episodio.getNome (PRÓXIMO)
                                                                                         } else {
                                                                                             @episodio.getNome
                                                                                         }
 
                                                                                         <form class="pull-right" action="@routes.Application.assistirEpisodio(episodio.getId)" method="post" >
-                                                                                            <button class="btn btn-success">Já assisti!</button>
+                                                                                            <button class="btn btn-success btn-xs">Já assisti!</button>
                                                                                         </form>
                                                                                     </li>
                                                                                     <br/>
