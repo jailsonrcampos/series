@@ -33,10 +33,13 @@ public class Serie {
     }
 
     public Serie(String nome) throws Exception {
+    	if (nome.equals("") || nome == null){
+            throw new Exception("Nome da série não deve ser vazia ou null");
+        }
         this.temporadas = new LinkedList<Temporada>();
         this.proximoEpisodioExtrator = new MaisAntigoDepoisDoUltimoAssistido();
-        setNome(nome);
-        setAssistindo(false);
+        this.nome = nome;
+        this.assistindo = false;
     }
 
     public long getId() {
@@ -75,7 +78,7 @@ public class Serie {
     }
 
     public void addTemporada(Temporada temporada) throws Exception {
-        if (temporada == null){
+        if (temporada == null) {
             throw new Exception("Temporada não deve ser nula!");
         }
         temporadas.add(temporada);
@@ -83,13 +86,21 @@ public class Serie {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (this == null || getClass() != this.getClass()) return false;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+        	return true;
+        }
+        if (this == null || getClass() != this.getClass()) {
+        	return false;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+        	return false;
+        }
 
         Serie serie = (Serie) obj;
 
-        if (!nome.equals(serie.nome)) return false;
+        if (!nome.equals(serie.nome)) {
+        	return false;
+        }
 
         return true;
     }

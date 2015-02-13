@@ -13,53 +13,53 @@ import java.util.List;
 
 public class Application extends Controller {
 
-    private static final GenericDAO dao = new GenericDAO();
+    private static final GenericDAO DAO = new GenericDAO();
 
     @Transactional
     public static Result index() {
-    	List<Serie> series = dao.findAllByClass(Serie.class);
+    	List<Serie> series = DAO.findAllByClass(Serie.class);
         return ok(index.render(series));
     }
 
     @Transactional
     public static Result assistirEpisodio(long id) {
-    	Episodio episodio = dao.findByEntityId(Episodio.class, id);
+    	Episodio episodio = DAO.findByEntityId(Episodio.class, id);
     	episodio.setAssistido(true);
-    	dao.merge(episodio);
-    	dao.flush();
+    	DAO.merge(episodio);
+    	DAO.flush();
     	return redirect("/");
     }
     
     @Transactional
     public static Result naoAssistirEpisodio(long id) {
-    	Episodio episodio = dao.findByEntityId(Episodio.class, id);
+    	Episodio episodio = DAO.findByEntityId(Episodio.class, id);
     	episodio.setAssistido(false);
-    	dao.merge(episodio);
-    	dao.flush();
+    	DAO.merge(episodio);
+    	DAO.flush();
     	return redirect("/");
     }
 
     @Transactional
     public static Result acompanharSerie(long id) {
-    	Serie serie = dao.findByEntityId(Serie.class, id);
+    	Serie serie = DAO.findByEntityId(Serie.class, id);
     	serie.setAssistindo(true);
-    	dao.merge(serie);
-    	dao.flush();
+    	DAO.merge(serie);
+    	DAO.flush();
     	return redirect("/");
     }
     
     @Transactional
     public static Result naoAcompanharSerie(long id) {
-    	Serie serie = dao.findByEntityId(Serie.class, id);
+    	Serie serie = DAO.findByEntityId(Serie.class, id);
     	serie.setAssistindo(false);
-    	dao.merge(serie);
-    	dao.flush();
+    	DAO.merge(serie);
+    	DAO.flush();
     	return redirect("/");
     }
 
     @Transactional
     public static Result proximoSerie(long id, int extrator) {
-        Serie serie = dao.findByEntityId(Serie.class, id);
+        Serie serie = DAO.findByEntityId(Serie.class, id);
         if(extrator == 1) {
         	serie.setProximoEpisodioExtrator(new MaisAntigoNaoAssistido());
         } else if (extrator == 2) {
@@ -67,8 +67,8 @@ public class Application extends Controller {
         } else {
         	serie.setProximoEpisodioExtrator(new NaoIndicarDepoisDeTresAssistidos());
         }
-        dao.merge(serie);
-        dao.flush();
+        DAO.merge(serie);
+        DAO.flush();
         return redirect("/");
     }
 }

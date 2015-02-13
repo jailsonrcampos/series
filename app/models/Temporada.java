@@ -32,8 +32,14 @@ public class Temporada {
 
     public Temporada(int numero, Serie serie) throws Exception {
         this();
-        setNumero(numero);
-        setSerie(serie);
+        if (numero <= 0){
+            throw new Exception("O Número da temporada não pode ser menor ou igual a zero!");
+        }
+        if (serie == null){
+            throw new Exception("Serie não pode ser nula!");
+        }
+        this.numero = numero;
+        this.serie = serie;
     }
 
     public long getId() {

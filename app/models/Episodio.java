@@ -27,9 +27,18 @@ public class Episodio {
     private Temporada temporada;
 
     public Episodio(String nome, Temporada temporada, int numero) throws Exception {
-        setNome(nome);
-        setTemporada(temporada);
-        setNumero(numero);
+    	if (nome.equals("") || nome == null){
+            throw new Exception("Nome do episódio não deve ser vazio!");
+        }
+    	if(temporada == null){
+            throw new Exception("Temporada não deve ser nula!");
+        }
+    	if (numero < 0){
+            throw new Exception("O número do episódio não deve ser menor que zero!");
+        }
+        this.nome = nome;
+        this.temporada = temporada;
+        this.numero = numero;
         this.assistido = false;
     }
 

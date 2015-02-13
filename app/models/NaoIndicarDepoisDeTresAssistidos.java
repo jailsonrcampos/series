@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 	
-	private final int PROXIMOS_ASSISTIDOS = 3;
+	private final int PROXIMOSASSISTIDOS = 3;
 	
 	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn
@@ -37,7 +37,7 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 				cont++;
 	        }
 	    }
-		if(cont >= PROXIMOS_ASSISTIDOS) {
+		if(cont >= PROXIMOSASSISTIDOS) {
 			return false;
 		}
 		return true;
