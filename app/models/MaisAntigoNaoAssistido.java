@@ -46,4 +46,9 @@ public class MaisAntigoNaoAssistido extends ProximoEpisodioStrategy {
 	public String toString() {
 		return "O mais antigo não assistido";
 	}
+
+	public Temporada getTemporada() {
+		return temporada;
+	}
+	
 }

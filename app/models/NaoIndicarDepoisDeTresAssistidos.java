@@ -48,4 +48,8 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 		return "O mais antigo (não indicar se houver três assistidos depois).";
 	}
 
+	public Temporada getTemporada() {
+		return temporada;
+	}
+
 }

@@ -38,4 +38,8 @@ public class MaisAntigoDepoisDoUltimoAssistido extends ProximoEpisodioStrategy {
 		return "O próximo depois do último assistido.";
 	}
 
+	public Temporada getTemporada() {
+		return temporada;
+	}
+
 }
