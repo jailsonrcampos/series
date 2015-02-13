@@ -30,13 +30,13 @@ public class Temporada {
         this.episodios = new LinkedList<Episodio>();
     }
 
-    public Temporada(int numero, Serie serie) throws Exception {
+    public Temporada(int numero, Serie serie) throws ArgumentoInvalidoException {
         this();
         if (numero <= 0){
-            throw new Exception("O Número da temporada não pode ser menor ou igual a zero!");
+            throw new ArgumentoInvalidoException("O Número da temporada não pode ser menor ou igual a zero!");
         }
         if (serie == null){
-            throw new Exception("Serie não pode ser nula!");
+            throw new ArgumentoInvalidoException("Serie não pode ser nula!");
         }
         this.numero = numero;
         this.serie = serie;
@@ -50,9 +50,9 @@ public class Temporada {
         return numero;
     }
 
-    public void setNumero(int numero) throws Exception {
+    public void setNumero(int numero) throws ArgumentoInvalidoException {
         if (numero <= 0){
-            throw new Exception("O Número da temporada não pode ser menor ou igual a zero!");
+            throw new ArgumentoInvalidoException("O Número da temporada não pode ser menor ou igual a zero!");
         }
         this.numero = numero;
     }
@@ -61,9 +61,9 @@ public class Temporada {
         return episodios;
     }
 
-    public void addEpisodio(Episodio episodio) throws Exception {
+    public void addEpisodio(Episodio episodio) throws ArgumentoInvalidoException {
         if (episodio == null){
-            throw new Exception("Episódio não pode ser nulo!");
+            throw new ArgumentoInvalidoException("Episódio não pode ser nulo!");
         }
         episodios.add(episodio);
     }
@@ -72,9 +72,9 @@ public class Temporada {
         return serie;
     }
 
-    public void setSerie(Serie serie) throws Exception {
+    public void setSerie(Serie serie) throws ArgumentoInvalidoException {
         if (serie == null){
-            throw new Exception("Serie não pode ser nula!");
+            throw new ArgumentoInvalidoException("Serie não pode ser nula!");
         }
         this.serie = serie;
     }
@@ -93,9 +93,9 @@ public class Temporada {
         return episodios.size();
     }
 
-    public boolean isProximoEpisodioAssistir(Episodio episodioAtual) throws Exception {
+    public boolean isProximoEpisodioAssistir(Episodio episodioAtual) throws ArgumentoInvalidoException {
     	if (episodioAtual == null){
-            throw new Exception("O Episodio não pode ser null!");
+            throw new ArgumentoInvalidoException("O Episodio não pode ser null!");
         }
         return serie.getProximoEpisodioExtrator().isProximoEpisodioAssistir(episodios, episodioAtual);
     }

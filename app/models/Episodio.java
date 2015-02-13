@@ -26,15 +26,15 @@ public class Episodio {
     @ManyToOne(cascade=CascadeType.ALL)
     private Temporada temporada;
 
-    public Episodio(String nome, Temporada temporada, int numero) throws Exception {
+    public Episodio(String nome, Temporada temporada, int numero) throws ArgumentoInvalidoException {
     	if (nome.equals("") || nome == null){
-            throw new Exception("Nome do episódio não deve ser vazio!");
+            throw new ArgumentoInvalidoException("Nome do episódio não deve ser vazio!");
         }
     	if(temporada == null){
-            throw new Exception("Temporada não deve ser nula!");
+            throw new ArgumentoInvalidoException("Temporada não deve ser nula!");
         }
     	if (numero < 0){
-            throw new Exception("O número do episódio não deve ser menor que zero!");
+            throw new ArgumentoInvalidoException("O número do episódio não deve ser menor que zero!");
         }
         this.nome = nome;
         this.temporada = temporada;
@@ -48,9 +48,9 @@ public class Episodio {
         return nome;
     }
 
-    public void setNome(String nome) throws Exception {
+    public void setNome(String nome) throws ArgumentoInvalidoException {
         if (nome.equals("") || nome == null){
-            throw new Exception("Nome do episódio não deve ser vazio!");
+            throw new ArgumentoInvalidoException("Nome do episódio não deve ser vazio!");
         }
         this.nome = nome;
     }
@@ -71,9 +71,9 @@ public class Episodio {
         return temporada;
     }
 
-    public void setTemporada(Temporada temporada) throws Exception {
+    public void setTemporada(Temporada temporada) throws ArgumentoInvalidoException {
         if(temporada == null){
-            throw new Exception("Temporada não deve ser nula!");
+            throw new ArgumentoInvalidoException("Temporada não deve ser nula!");
         }
         this.temporada = temporada;
     }
@@ -82,9 +82,9 @@ public class Episodio {
         return numero;
     }
 
-    public void setNumero(int numero) throws Exception {
+    public void setNumero(int numero) throws ArgumentoInvalidoException {
         if (numero < 0){
-            throw new Exception("O número do episódio não deve ser menor que zero!");
+            throw new ArgumentoInvalidoException("O número do episódio não deve ser menor que zero!");
         }
         this.numero = numero;
     }

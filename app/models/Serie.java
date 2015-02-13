@@ -32,9 +32,9 @@ public class Serie {
     public Serie() {
     }
 
-    public Serie(String nome) throws Exception {
+    public Serie(String nome) throws ArgumentoInvalidoException {
     	if (nome.equals("") || nome == null){
-            throw new Exception("Nome da série não deve ser vazia ou null");
+            throw new ArgumentoInvalidoException("Nome da série não deve ser vazia ou null");
         }
         this.temporadas = new LinkedList<Temporada>();
         this.proximoEpisodioExtrator = new MaisAntigoDepoisDoUltimoAssistido();
@@ -50,9 +50,9 @@ public class Serie {
         return nome;
     }
 
-    public void setNome(String nome) throws Exception {
+    public void setNome(String nome) throws ArgumentoInvalidoException {
         if (nome.equals("") || nome == null){
-            throw new Exception("Nome da série não deve ser vazia ou null");
+            throw new ArgumentoInvalidoException("Nome da série não deve ser vazia ou null");
         }
         this.nome = nome;
     }
@@ -77,9 +77,9 @@ public class Serie {
         return temporadas;
     }
 
-    public void addTemporada(Temporada temporada) throws Exception {
+    public void addTemporada(Temporada temporada) throws ArgumentoInvalidoException {
         if (temporada == null) {
-            throw new Exception("Temporada não deve ser nula!");
+            throw new ArgumentoInvalidoException("Temporada não deve ser nula!");
         }
         temporadas.add(temporada);
     }
