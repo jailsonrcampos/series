@@ -47,7 +47,5 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 	public String toString() {
 		return "O mais antigo (não indicar se houver três assistidos depois).";
 	}
-	
-	
 
 }

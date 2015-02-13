@@ -26,8 +26,4 @@ public abstract class ProximoEpisodioStrategy {
 	
 	public abstract String toString();
 
-	public Long getId() {
-		return id;
-	}
-	
 }
