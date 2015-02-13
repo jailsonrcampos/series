@@ -1,11 +1,7 @@
 package models;
 
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 /**
  * Retorna o próximo episódio da seguinte forma: Retorna o episodio mais antigo que ainda não foi assistido caso NÂO 
@@ -17,11 +13,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 	
-	private final int PROXIMOSASSISTIDOS = 3;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn
-    private Temporada temporada;
+	private final int proximosAssistidos = 3;
 	
 	public NaoIndicarDepoisDeTresAssistidos(){}
 
@@ -37,7 +29,7 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 				cont++;
 	        }
 	    }
-		if(cont >= PROXIMOSASSISTIDOS) {
+		if(cont >= proximosAssistidos) {
 			return false;
 		}
 		return true;
@@ -47,5 +39,7 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 	public String toString() {
 		return "O mais antigo (não indicar se houver três assistidos depois).";
 	}
+	
+	
 
 }
