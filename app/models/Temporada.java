@@ -19,10 +19,6 @@ public class Temporada {
     @Column
     private int numero;
     
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn
-    private ProximoEpisodioStrategy proximoEpisodioExtrator;
-
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn
     private List<Episodio> episodios;
@@ -32,7 +28,6 @@ public class Temporada {
 
     public Temporada(){
         this.episodios = new LinkedList<Episodio>();
-        this.proximoEpisodioExtrator = new MaisAntigoDepoisDoUltimoAssistido();
     }
 
     public Temporada(int numero, Serie serie) throws Exception {
@@ -80,8 +75,8 @@ public class Temporada {
 
     public int getQuantidadeDeEpisodiosAssistidos(){
         int cont = 0;
-        for(Episodio episodio: episodios){
-            if (episodio.isAssistido()){
+        for(Episodio episodio: episodios) {
+            if (episodio.isAssistido()) {
                 cont++;
             }
         }
@@ -96,15 +91,9 @@ public class Temporada {
     	if (episodioAtual == null){
             throw new Exception("O Episodio não pode ser null!");
         }
-        return proximoEpisodioExtrator.isProximoEpisodioAssistir(episodios, episodioAtual);
+        return serie.getProximoEpisodioExtrator().isProximoEpisodioAssistir(episodios, episodioAtual);
     }
 
-	public ProximoEpisodioStrategy getProximoEpisodioExtrator() {
-		return proximoEpisodioExtrator;
-	}
-
-	public void setProximoEpisodioExtrator(ProximoEpisodioStrategy proximoEpisodioExtrator) {
-		this.proximoEpisodioExtrator = proximoEpisodioExtrator;
-	}
+	
     
 }

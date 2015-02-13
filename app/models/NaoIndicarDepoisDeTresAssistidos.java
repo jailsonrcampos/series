@@ -17,9 +17,13 @@ import javax.persistence.OneToOne;
 @Entity
 public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 	
+	private final int PROXIMOS_ASSISTIDOS = 3;
+	
 	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn
     private Temporada temporada;
+	
+	public NaoIndicarDepoisDeTresAssistidos(){}
 
 	@Override
 	public boolean isProximoEpisodioAssistir(List<Episodio> episodios, Episodio episodioAtual) {
@@ -28,13 +32,20 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 		}
 		int index = episodios.indexOf(episodioAtual);
 		int cont = 0;
-		for (int i = index + 1; i < episodios.size(); i++){
-			if (episodios.get(i).isAssistido()){
+		for (int i = index + 1; i < episodios.size(); i++) {
+			if (episodios.get(i).isAssistido()) {
 				cont++;
 	        }
 	    }
-		if(cont == 3) return false;
+		if(cont == PROXIMOS_ASSISTIDOS) {
+			return false;
+		}
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "O mais antigo (não indicar próximo se houver mais de três Assistidos depois dele).";
 	}
 
 }

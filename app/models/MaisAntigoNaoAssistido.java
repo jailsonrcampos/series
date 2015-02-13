@@ -19,10 +19,12 @@ public class MaisAntigoNaoAssistido extends ProximoEpisodioStrategy {
 	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn
     private Temporada temporada;
+	
+	public MaisAntigoNaoAssistido(){}
 
 	@Override
 	public boolean isProximoEpisodioAssistir(List<Episodio> episodios, Episodio episodioAtual) {
-		for(Episodio episodio: episodios){
+		for(Episodio episodio: episodios) {
             if (!episodio.isAssistido()) {
             	return episodio.equals(episodioAtual);
             }
@@ -30,4 +32,8 @@ public class MaisAntigoNaoAssistido extends ProximoEpisodioStrategy {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "O mais antigo não assistido";
+	}
 }

@@ -1,40 +1,27 @@
 @(series: List[Serie])
 
 @main("Series") {
-
-    <head>
-        <title>Series</title>
-        <meta charset="UTF-8">
-
-        <link href="@routes.Assets.at("stylesheets/bootstrap.css")" rel="stylesheet" media="screen">
-        <script src="@routes.Assets.at("javascripts/jquery-2.1.1.min.js")"></script>
-        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
-    </head>
-
-    <body>
-        <div class="container">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h1 class="text-center">Series</h1>
-                </div>
-
-                <div class="panel-body">
-                    <div class="row">
+		<div class="container">
+            <div class="header">
+                <div class="page-header">
+              		<h1>Minhas Series</h1>
+            	</div>
+            </div>
+        </div>
+		<div class="container">
+                <div class="row">
                         <div class="col-sm-6">
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="text-center">Séries Não Acompanhadas</h3>
+                                <div class="page-header">
+                                    <h3>Séries Não Acompanhadas</h3>
                                 </div>
-
-                                <div class="panel-body">
-                                    @for(serie <- series){
+                                @for(serie <- series){
                                         @if(!serie.isAssistindo){
                                             <div id="accordion" class="panel-group">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
                                                         <h4 class="panel-title">
                                                             <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getNome.split(" ")@serie.getId">@serie.getNome</a>
-                                                            <form class="pull-right" action="@routes.Application.assistirSerie(serie.getId)" method="post" >
+                                                            <form class="pull-right" action="@routes.Application.acompanharSerie(serie.getId)" method="post" >
                                                                 <button class="btn btn-success btn-xs">Acompanhar</button>
                                                             </form>
                                                         </h4>
@@ -52,19 +39,15 @@
                                                 </div>
                                             </div>
                                         }
-                                    }
-                                </div>
-                            </div>
+                                }
+                                
                         </div>
 
                         <div class="col-sm-6">
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="text-center">Séries Acompanhadas</h3>
+                                <div class="page-header">
+                                    <h3>Séries Acompanhadas</h3>
                                 </div>
-
-                                <div class="panel-body">
-                                @for(serie <- series){
+								@for(serie <- series){
                                     @if(serie.isAssistindo){
                                         <div id="accordion" class="panel-group">
                                             <div class="panel panel-default">
@@ -72,7 +55,18 @@
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getNome.split(" ")@serie.getId">@serie.getNome</a>
                                                     </h4>
-                                                    <br/>
+                                                    <small><br />Próximo episodio: </small>
+                                                    <div class="btn-group">
+                                                    		
+															  <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+															    @serie.getProximoEpisodioExtrator.toString <span class="caret"></span>
+															  </button>
+															  <ul class="dropdown-menu btn-xs" role="menu">
+															    <li><a href="@routes.Application.proximoSerie(serie.getId,1)">O mais antigo não assistido.</a></li>
+															    <li><a href="@routes.Application.proximoSerie(serie.getId,2)">O próximo depois do último assistido.</a></li>
+															    <li><a href="@routes.Application.proximoSerie(serie.getId,3)">O mais antigo (não indicar próximo se houver mais de três Assistidos depois dele).</a></li>
+															  </ul>
+													</div>
                                                 </div>
                                                 <div id="@serie.getNome.split(" ")@serie.getId" class="panel-collapse collapse">
                                                     <div class="panel-body">
@@ -122,15 +116,7 @@
                                         </div>
                                     }
                                 }
-                                </div>
-
-                            </div>
                         </div>
-                    </div>
                 </div>
-            </div>
-
         </div>
-
-    </body>
 }

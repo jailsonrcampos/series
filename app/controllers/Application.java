@@ -1,13 +1,15 @@
 package controllers;
 
 import models.Episodio;
+import models.MaisAntigoDepoisDoUltimoAssistido;
+import models.MaisAntigoNaoAssistido;
+import models.NaoIndicarDepoisDeTresAssistidos;
 import models.Serie;
 import models.dao.GenericDAO;
 import play.*;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.*;
-
 import views.html.*;
 
 import java.util.List;
@@ -55,7 +57,7 @@ public class Application extends Controller {
     }
 
     @Transactional
-    public static Result assistirSerie(long id) {
+    public static Result acompanharSerie(long id) {
         Form<Serie> filledForm = seriesForm.bindFromRequest();
 
         if (filledForm.hasErrors()) {
@@ -64,18 +66,37 @@ public class Application extends Controller {
             return badRequest(views.html.index.render(result));
         } else {
             Serie serie = dao.findByEntityId(Serie.class, id);
-
             serie.setAssistindo(true);
-
             Logger.debug("Assistindo serie: " + filledForm.data().toString() + " como " + serie.getNome());
 
             dao.merge(serie);
-
             dao.flush();
-
             return index();
         }
     }
 
+    @Transactional
+    public static Result proximoSerie(long id, int extrator) {
+        Form<Serie> filledForm = seriesForm.bindFromRequest();
 
+        if (filledForm.hasErrors()) {
+            List<Serie> result = dao.findAllByClass(Serie.class);
+            return badRequest(views.html.index.render(result));
+        } else {
+            Serie serie = dao.findByEntityId(Serie.class, id);
+            if(extrator == 1) {
+            	serie.setProximoEpisodioExtrator(new MaisAntigoNaoAssistido());
+            } else if (extrator == 2) {
+            	serie.setProximoEpisodioExtrator(new MaisAntigoDepoisDoUltimoAssistido());
+            } else {
+            	serie.setProximoEpisodioExtrator(new NaoIndicarDepoisDeTresAssistidos());
+            }
+            
+            Logger.debug("Alterando proximo serie: " + filledForm.data().toString() + " como " + serie.getNome());
+
+            dao.merge(serie);
+            dao.flush();
+            return index();
+        }
+    }
 }

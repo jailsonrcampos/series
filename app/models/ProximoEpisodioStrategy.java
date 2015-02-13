@@ -20,8 +20,10 @@ public abstract class ProximoEpisodioStrategy {
 	@GeneratedValue
 	private Long id;
 	
-	public ProximoEpisodioStrategy() {};
+	public ProximoEpisodioStrategy() {}
 	
 	public abstract boolean isProximoEpisodioAssistir( List<Episodio> episodios, Episodio episodioAtual);
+	
+	public abstract String toString();
 
 }

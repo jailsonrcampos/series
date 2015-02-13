@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,12 +24,17 @@ public class Serie {
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn
     private List<Temporada> temporadas;
+    
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn
+    private ProximoEpisodioStrategy proximoEpisodioExtrator;
 
     public Serie() {
     }
 
     public Serie(String nome) throws Exception {
         this.temporadas = new LinkedList<Temporada>();
+        this.proximoEpisodioExtrator = new MaisAntigoDepoisDoUltimoAssistido();
         setNome(nome);
         setAssistindo(false);
     }
@@ -51,6 +57,14 @@ public class Serie {
         }
         this.nome = nome;
     }
+    
+    public ProximoEpisodioStrategy getProximoEpisodioExtrator() {
+		return proximoEpisodioExtrator;
+	}
+
+	public void setProximoEpisodioExtrator(ProximoEpisodioStrategy proximoEpisodioExtrator) {
+		this.proximoEpisodioExtrator = proximoEpisodioExtrator;
+	}
 
     public boolean isAssistindo() {
         return assistindo;
