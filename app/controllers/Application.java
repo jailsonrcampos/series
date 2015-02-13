@@ -25,6 +25,7 @@ public class Application extends Controller {
     public static Result assistirEpisodio(long id) {
     	Episodio episodio = DAO.findByEntityId(Episodio.class, id);
     	episodio.setAssistido(true);
+    	
     	DAO.merge(episodio);
     	DAO.flush();
     	return redirect("/");
@@ -34,6 +35,7 @@ public class Application extends Controller {
     public static Result naoAssistirEpisodio(long id) {
     	Episodio episodio = DAO.findByEntityId(Episodio.class, id);
     	episodio.setAssistido(false);
+    	
     	DAO.merge(episodio);
     	DAO.flush();
     	return redirect("/");
@@ -43,6 +45,7 @@ public class Application extends Controller {
     public static Result acompanharSerie(long id) {
     	Serie serie = DAO.findByEntityId(Serie.class, id);
     	serie.setAssistindo(true);
+    	
     	DAO.merge(serie);
     	DAO.flush();
     	return redirect("/");
@@ -52,6 +55,7 @@ public class Application extends Controller {
     public static Result naoAcompanharSerie(long id) {
     	Serie serie = DAO.findByEntityId(Serie.class, id);
     	serie.setAssistindo(false);
+    	
     	DAO.merge(serie);
     	DAO.flush();
     	return redirect("/");
@@ -67,6 +71,7 @@ public class Application extends Controller {
         } else {
         	serie.setProximoEpisodioExtrator(new NaoIndicarDepoisDeTresAssistidos());
         }
+        
         DAO.merge(serie);
         DAO.flush();
         return redirect("/");
