@@ -43,10 +43,6 @@ public class Serie {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -83,10 +79,6 @@ public class Serie {
             throw new Exception("Temporada não deve ser nula!");
         }
         temporadas.add(temporada);
-    }
-
-    public Temporada temporadaMaisNova(){
-        return temporadas.get(temporadas.size() - 1);
     }
 
     @Override

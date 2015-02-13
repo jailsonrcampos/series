@@ -22,7 +22,7 @@
                                                         <h4 class="panel-title">
                                                             <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getNome.split(" ")@serie.getId">@serie.getNome</a>
                                                             <form class="pull-right" action="@routes.Application.acompanharSerie(serie.getId)" method="post" >
-                                                                <button class="btn btn-success btn-xs">Acompanhar</button>
+                                                                <button class="btn btn-success btn-xs" title="Acicionar esta serie a lista de series acompanhadas">Acompanhar</button>
                                                             </form>
                                                         </h4>
                                                         <br/>
@@ -54,17 +54,19 @@
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion" href="#@serie.getNome.split(" ")@serie.getId">@serie.getNome</a>
+                                                        <form class="pull-right" action="@routes.Application.naoAcompanharSerie(serie.getId)" method="post" >
+                                                                <button class="btn btn-warning btn-xs" title="Deixar de acompanhar esta serie"> X </button>
+                                                        </form>
                                                     </h4>
-                                                    <small><br />Próximo episodio: </small>
+                                                    <small><br />Próximo episódio indicado: </small><br />
                                                     <div class="btn-group">
-                                                    		
-															  <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+															  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 															    @serie.getProximoEpisodioExtrator.toString <span class="caret"></span>
 															  </button>
 															  <ul class="dropdown-menu btn-xs" role="menu">
 															    <li><a href="@routes.Application.proximoSerie(serie.getId,1)">O mais antigo não assistido.</a></li>
 															    <li><a href="@routes.Application.proximoSerie(serie.getId,2)">O próximo depois do último assistido.</a></li>
-															    <li><a href="@routes.Application.proximoSerie(serie.getId,3)">O mais antigo (não indicar próximo se houver mais de três Assistidos depois dele).</a></li>
+															    <li><a href="@routes.Application.proximoSerie(serie.getId,3)">O mais antigo (não indicar se houver três assistidos depois).</a></li>
 															  </ul>
 													</div>
                                                 </div>
@@ -75,7 +77,7 @@
                                                                 <div class="panel panel-default">
                                                                     <div class="panel-heading">
                                                                         <h4 class="panel-title">
-                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#@temporada.getId@temporada.getSerie.getNome.split(" ")">@temporada.getNumero Temporada - @temporada.getQuantidadeDeEpisodiosAssistidos/@temporada.getTotalDeEpisodios</a>
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#@temporada.getId@temporada.getSerie.getNome.split(" ")">@temporada.getNumero ª Temporada - @temporada.getQuantidadeDeEpisodiosAssistidos/@temporada.getTotalDeEpisodios</a>
                                                                             
                                                                         </h4>
                                                                         <br/>
@@ -87,6 +89,9 @@
                                                                                 @if(episodio.isAssistido){
                                                                                     <li>
                                                                                         <del>@episodio.getNome</del>
+                                                                                        <form class="pull-right" action="@routes.Application.naoAssistirEpisodio(episodio.getId)" method="post" >
+                                                                                            <button class="btn btn-warning btn-xs" title="Desmarcar episódio como assistido"> X </button>
+                                                                                    	</form>
                                                                                     </li>
                                                                                     <br/>
                                                                                 } else {
@@ -98,7 +103,7 @@
                                                                                         }
 
                                                                                         <form class="pull-right" action="@routes.Application.assistirEpisodio(episodio.getId)" method="post" >
-                                                                                            <button class="btn btn-success btn-xs">Já assisti!</button>
+                                                                                            <button class="btn btn-success btn-xs"  title="Marcar episódio como assistido">Já assisti!</button>
                                                                                         </form>
                                                                                     </li>
                                                                                     <br/>

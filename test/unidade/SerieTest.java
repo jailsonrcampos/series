@@ -20,6 +20,16 @@ public class SerieTest {
             assertThat(serie).isEqualTo(null);
         }
     }
+    
+    @Test
+    public void naoDeveCriarSerieComNomeNull(){
+        try{
+            serie = new Serie(null);
+            fail();
+        } catch (Exception e){
+            assertThat(serie).isEqualTo(null);
+        }
+    }
 
     @Test
     public void deveComecarAAssistirUmaSerie() throws Exception {
@@ -48,10 +58,10 @@ public class SerieTest {
         serie.addTemporada(temporada1);
 
         assertThat(serie.getTemporadas()).isNotEmpty();
-        assertThat(serie.temporadaMaisNova().getNumero()).isEqualTo(1);
+        assertThat(serie.getTemporadas().get(0).getNumero()).isEqualTo(1);
 
         serie.addTemporada(temporada2);
-        assertThat(serie.temporadaMaisNova().getNumero()).isEqualTo(2);
+        assertThat(serie.getTemporadas().get(1).getNumero()).isEqualTo(2);
 
     }
 

@@ -94,6 +94,4 @@ public class Temporada {
         return serie.getProximoEpisodioExtrator().isProximoEpisodioAssistir(episodios, episodioAtual);
     }
 
-	
-    
 }

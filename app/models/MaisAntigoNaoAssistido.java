@@ -24,6 +24,16 @@ public class MaisAntigoNaoAssistido extends ProximoEpisodioStrategy {
 
 	@Override
 	public boolean isProximoEpisodioAssistir(List<Episodio> episodios, Episodio episodioAtual) {
+		boolean hasAssistido = false;
+		for(Episodio episodio: episodios) {
+            if (episodio.isAssistido()) {
+            	hasAssistido = true;
+            	break;
+            }
+        }
+		if(!hasAssistido) {
+			return false;
+		}
 		for(Episodio episodio: episodios) {
             if (!episodio.isAssistido()) {
             	return episodio.equals(episodioAtual);

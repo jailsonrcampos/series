@@ -2,10 +2,15 @@ package funcionalidade;
 
 import base.AbstractTest;
 import models.Episodio;
+import models.MaisAntigoDepoisDoUltimoAssistido;
+import models.MaisAntigoNaoAssistido;
+import models.NaoIndicarDepoisDeTresAssistidos;
 import models.Serie;
 import models.Temporada;
 import models.dao.GenericDAO;
+
 import org.junit.Test;
+
 import play.twirl.api.Html;
 import views.html.index;
 
@@ -26,7 +31,7 @@ public class IndexViewTest extends AbstractTest {
         Html html = index.render(series);
 
         assertThat(contentAsString(html)).doesNotContain("South Park");
-        assertThat(contentAsString(html)).doesNotContain("Começar a assistir");
+        assertThat(contentAsString(html)).doesNotContain("Acompanhar");
     }
 
     @Test
@@ -39,7 +44,7 @@ public class IndexViewTest extends AbstractTest {
         Html html = index.render(series);
 
         assertThat(contentAsString(html)).contains("Sons of Anarchy");
-        assertThat(contentAsString(html)).contains("Começar a assistir");
+        assertThat(contentAsString(html)).contains("Acompanhar");
     }
 
     @Test
@@ -102,7 +107,7 @@ public class IndexViewTest extends AbstractTest {
 
         Html html = index.render(series);
 
-        assertThat(contentAsString(html)).doesNotContain("Começar a assistir");
+        assertThat(contentAsString(html)).doesNotContain("Acompanhar");
         assertThat(contentAsString(html)).contains("Episódio 1");
     }
 
@@ -159,7 +164,7 @@ public class IndexViewTest extends AbstractTest {
 
         Html html = index.render(series);
 
-        assertThat(contentAsString(html)).contains("1 Temporada - 0/2");
+        assertThat(contentAsString(html)).contains("1 ª Temporada - 0/2");
     }
 
     @Test
@@ -179,7 +184,7 @@ public class IndexViewTest extends AbstractTest {
 
         Html html = index.render(series);
 
-        assertThat(contentAsString(html)).contains("1 Temporada - 1/2");
+        assertThat(contentAsString(html)).contains("1 ª Temporada - 1/2");
     }
 
     @Test
@@ -200,12 +205,17 @@ public class IndexViewTest extends AbstractTest {
 
         Html html = index.render(series);
 
-        assertThat(contentAsString(html)).contains("1 Temporada - 2/2");
+        assertThat(contentAsString(html)).contains("1 ª Temporada - 2/2");
     }
 
     @Test
-    public void naoDeveAparecerOProximoEpisodioQuandoNaoTiverAssistidoNenhum() throws Exception {
+    public void naoDeveAparecerOProximoEpisodioQuandoNaoTiverAssistidoNenhumCaso1() throws Exception {
+    	
+    	// caso1: mais antigo depois do ultimo assistido
+    	
         Serie serie = new Serie("Sons of Anarchy");
+        serie.setProximoEpisodioExtrator(new MaisAntigoDepoisDoUltimoAssistido());
+        
         Temporada temporada = new Temporada(1, serie);
         Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
         Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
@@ -213,6 +223,167 @@ public class IndexViewTest extends AbstractTest {
         temporada.addEpisodio(episodio2);
         serie.addTemporada(temporada);
         serie.setAssistindo(true);
+
+        dao.persist(serie);
+        series = dao.findAllByClass(Serie.class);
+
+        Html html = index.render(series);
+
+        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
+    }
+    
+    @Test
+    public void naoDeveAparecerOProximoEpisodioQuandoNaoTiverAssistidoNenhumCaso2() throws Exception {
+    	
+    	// caso 2: mais antigo
+    	
+        Serie serie = new Serie("Sons of Anarchy");
+        serie.setProximoEpisodioExtrator(new MaisAntigoNaoAssistido());
+        
+        Temporada temporada = new Temporada(1, serie);
+        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
+        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
+        temporada.addEpisodio(episodio1);
+        temporada.addEpisodio(episodio2);
+        serie.addTemporada(temporada);
+        serie.setAssistindo(true);
+
+        dao.persist(serie);
+        series = dao.findAllByClass(Serie.class);
+
+        Html html = index.render(series);
+
+        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
+    }
+    
+    @Test
+    public void naoDeveAparecerOProximoEpisodioQuandoNaoTiverAssistidoNenhumCaso3() throws Exception {
+    	
+    	// caso 3: mais antigo, nao mostrar depois de tres assistidos
+    	
+        Serie serie = new Serie("Sons of Anarchy");
+        serie.setProximoEpisodioExtrator(new NaoIndicarDepoisDeTresAssistidos());
+        
+        Temporada temporada = new Temporada(1, serie);
+        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
+        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
+        temporada.addEpisodio(episodio1);
+        temporada.addEpisodio(episodio2);
+        serie.addTemporada(temporada);
+        serie.setAssistindo(true);
+
+        dao.persist(serie);
+        series = dao.findAllByClass(Serie.class);
+
+        Html html = index.render(series);
+
+        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
+    }
+    
+    @Test
+    public void naoDeveAparecerOProximoEpisodioQuandoTiverTodosAssistidosCaso1() throws Exception {
+    	
+    	// caso1: mais antigo depois do ultimo assistido
+    	
+        Serie serie = new Serie("Sons of Anarchy");
+        serie.setProximoEpisodioExtrator(new MaisAntigoDepoisDoUltimoAssistido());
+        
+        Temporada temporada = new Temporada(1, serie);
+        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
+        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
+        temporada.addEpisodio(episodio1);
+        temporada.addEpisodio(episodio2);
+        serie.addTemporada(temporada);
+        serie.setAssistindo(true);
+        episodio1.setAssistido(true);
+        episodio2.setAssistido(true);
+
+        dao.persist(serie);
+        series = dao.findAllByClass(Serie.class);
+
+        Html html = index.render(series);
+
+        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
+    }
+    
+    @Test
+    public void naoDeveAparecerOProximoEpisodioQuandoTiverTodosAssistidosCaso2() throws Exception {
+    	
+    	// caso 2: mais antigo
+    	
+        Serie serie = new Serie("Sons of Anarchy");
+        serie.setProximoEpisodioExtrator(new MaisAntigoNaoAssistido());
+        
+        Temporada temporada = new Temporada(1, serie);
+        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
+        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
+        temporada.addEpisodio(episodio1);
+        temporada.addEpisodio(episodio2);
+        serie.addTemporada(temporada);
+        serie.setAssistindo(true);
+        episodio1.setAssistido(true);
+        episodio2.setAssistido(true);
+
+        dao.persist(serie);
+        series = dao.findAllByClass(Serie.class);
+
+        Html html = index.render(series);
+
+        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
+    }
+    
+    @Test
+    public void naoDeveAparecerOProximoEpisodioQuandoTiverTodosAssistidosCaso3() throws Exception {
+    	
+    	// caso 3: mais antigo, nao mostrar depois de tres assistidos
+    	
+        Serie serie = new Serie("Sons of Anarchy");
+        serie.setProximoEpisodioExtrator(new NaoIndicarDepoisDeTresAssistidos());
+        
+        Temporada temporada = new Temporada(1, serie);
+        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
+        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
+        temporada.addEpisodio(episodio1);
+        temporada.addEpisodio(episodio2);
+        serie.addTemporada(temporada);
+        serie.setAssistindo(true);
+        episodio1.setAssistido(true);
+        episodio2.setAssistido(true);
+
+        dao.persist(serie);
+        series = dao.findAllByClass(Serie.class);
+
+        Html html = index.render(series);
+
+        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
+    }
+    
+    @Test
+    public void naoDeveAparecerOProximoEpisodioQuandoTiverTresAssistidosCaso3() throws Exception {
+    	
+    	// caso 3: mais antigo, nao mostrar depois de tres assistidos
+    	
+    	Serie serie = new Serie("Sons of Anarchy");
+		serie.setProximoEpisodioExtrator(new NaoIndicarDepoisDeTresAssistidos());
+        Temporada temporada = new Temporada(1, serie);
+        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
+        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
+        temporada.addEpisodio(episodio1);
+        temporada.addEpisodio(episodio2);
+        Episodio episodio3 = new Episodio("Episódio 3", temporada, 3);
+        Episodio episodio4 = new Episodio("Episódio 4", temporada, 4);
+        temporada.addEpisodio(episodio3);
+        temporada.addEpisodio(episodio4);
+        Episodio episodio5 = new Episodio("Episódio 5", temporada, 5);
+        Episodio episodio6 = new Episodio("Episódio 6", temporada, 6);
+        temporada.addEpisodio(episodio5);
+        temporada.addEpisodio(episodio6);
+        serie.addTemporada(temporada);
+        serie.setAssistindo(true);
+        episodio1.setAssistido(true);
+        episodio4.setAssistido(true);
+        episodio5.setAssistido(true);
+        episodio6.setAssistido(true);
 
         dao.persist(serie);
         series = dao.findAllByClass(Serie.class);
@@ -239,28 +410,9 @@ public class IndexViewTest extends AbstractTest {
 
         Html html = index.render(series);
 
-        assertThat(contentAsString(html)).contains("1 Temporada - 1/2");
+        assertThat(contentAsString(html)).contains("1 ª Temporada - 1/2");
         assertThat(contentAsString(html)).contains("Episódio 2 (PRÓXIMO)");
     }
 
-    @Test
-    public void naoDeveAparecerOProximoEpisodioQuandoTiverAssistidoTodos() throws Exception {
-        Serie serie = new Serie("Sons of Anarchy");
-        Temporada temporada = new Temporada(1, serie);
-        Episodio episodio1 = new Episodio("Episódio 1", temporada, 1);
-        Episodio episodio2 = new Episodio("Episódio 2", temporada, 2);
-        episodio1.setAssistido(true);
-        episodio2.setAssistido(true);
-        temporada.addEpisodio(episodio1);
-        temporada.addEpisodio(episodio2);
-        serie.addTemporada(temporada);
-        serie.setAssistindo(true);
-
-        dao.persist(serie);
-        series = dao.findAllByClass(Serie.class);
-
-        Html html = index.render(series);
-
-        assertThat(contentAsString(html)).doesNotContain("PRÓXIMO");
-    }
+    
 }

@@ -26,9 +26,21 @@ public class EpisodioTest {
             assertTrue(episodio == null);
         }
     }
+    
+    @Test
+    public void naoDeveCriarEpisodioComNomeNulo(){
+        try {
+            Serie serie = new Serie("Sons of Anarchy");
+            Temporada temporada = new Temporada(1, serie);
+            episodio = new Episodio(null, temporada, 1);
+            fail();
+        } catch (Exception e){
+            assertTrue(episodio == null);
+        }
+    }
 
     @Test
-    public void naoDeveCriarrEpisodioComTemporadaNula(){
+    public void naoDeveCriarEpisodioComTemporadaNula(){
         try {
             episodio = new Episodio("Episódio 1", null, 1);
             fail();
@@ -57,6 +69,7 @@ public class EpisodioTest {
 
         assertThat(episodio.getNome()).isEqualTo("Episódio 1");
         assertThat(episodio.getNumero()).isEqualTo(1);
+        assertThat(episodio.getTemporada().getNumero()).isEqualTo(1);
         assertFalse(episodio.isAssistido());
     }
 
@@ -70,5 +83,17 @@ public class EpisodioTest {
 
         episodio.setAssistido(true);
         assertTrue(episodio.isAssistido());
+    }
+    
+    @Test
+    public void deveDeixarDeAssistirEpisodio() throws Exception {
+        Serie serie = new Serie("Sons of Anarchy");
+        Temporada temporada = new Temporada(1, serie);
+        episodio = new Episodio("Episódio 1", temporada, 1);
+
+        episodio.setAssistido(true);
+        assertTrue(episodio.isAssistido());
+        episodio.setAssistido(false);
+        assertFalse(episodio.isAssistido());
     }
 }

@@ -37,7 +37,7 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 				cont++;
 	        }
 	    }
-		if(cont == PROXIMOS_ASSISTIDOS) {
+		if(cont >= PROXIMOS_ASSISTIDOS) {
 			return false;
 		}
 		return true;
@@ -45,7 +45,7 @@ public class NaoIndicarDepoisDeTresAssistidos extends MaisAntigoNaoAssistido {
 	
 	@Override
 	public String toString() {
-		return "O mais antigo (não indicar próximo se houver mais de três Assistidos depois dele).";
+		return "O mais antigo (não indicar se houver três assistidos depois).";
 	}
 
 }

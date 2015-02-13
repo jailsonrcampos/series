@@ -4,9 +4,7 @@ import models.Episodio;
 import models.Serie;
 import models.Temporada;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.*;
-import static org.junit.Assert.*;
 
 /**
  * Created by orion on 06/12/14.
@@ -19,6 +17,16 @@ public class TemporadaTest {
         try{
             Serie serie = new Serie("Sons of Anarchy");
             temporada = new Temporada(-1, serie);
+        } catch (Exception e){
+            assertThat(temporada).isEqualTo(null);
+        }
+    }
+    
+    @Test
+    public void naoDeveCriarTemporadaComNumeroZero(){
+        try{
+            Serie serie = new Serie("Sons of Anarchy");
+            temporada = new Temporada(0, serie);
         } catch (Exception e){
             assertThat(temporada).isEqualTo(null);
         }

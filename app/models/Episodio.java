@@ -40,7 +40,7 @@ public class Episodio {
     }
 
     public void setNome(String nome) throws Exception {
-        if (nome.equals("")){
+        if (nome.equals("") || nome == null){
             throw new Exception("Nome do episódio não deve ser vazio!");
         }
         this.nome = nome;
@@ -56,10 +56,6 @@ public class Episodio {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Temporada getTemporada() {
@@ -79,7 +75,7 @@ public class Episodio {
 
     public void setNumero(int numero) throws Exception {
         if (numero < 0){
-            throw new Exception("Episódio não deve ser negativo!");
+            throw new Exception("O número do episódio não deve ser menor que zero!");
         }
         this.numero = numero;
     }
