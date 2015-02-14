@@ -9,6 +9,8 @@ import models.dao.GenericDAO;
 import play.db.jpa.Transactional;
 import play.mvc.*;
 import views.html.*;
+
+import java.util.Collections;
 import java.util.List;
 
 public class Application extends Controller {
@@ -17,7 +19,13 @@ public class Application extends Controller {
 
     @Transactional
     public static Result index() {
-    	List<Serie> series = DAO.findAllByClass(Serie.class);
+    	List<Serie> series = DAO.findAllByClassOrdered(Serie.class, "id");
+    	for (int i = 0; i < series.size(); i++) {
+			Collections.sort(series.get(i).getTemporadas());
+			for (int j = 0; j < series.get(i).getTemporadas().size(); j++) {
+				Collections.sort(series.get(i).getTemporadas().get(j).getEpisodios());
+			}
+		}
         return ok(index.render(series));
     }
 

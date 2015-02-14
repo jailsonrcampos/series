@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity(name = "Episodio")
-public class Episodio {
+public class Episodio implements Comparable<Episodio> {
 
     @Id
     @GeneratedValue
@@ -105,6 +105,11 @@ public class Episodio {
 		}
 		Episodio temp = (Episodio) obj;
 		return this.nome.equals(temp.getNome()) && this.numero == temp.getNumero();
+	}
+
+	@Override
+	public int compareTo(Episodio episodio) {
+		return this.getNumero() - episodio.getNumero();
 	}
 	
 }

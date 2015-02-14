@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 
 @Entity(name = "Temporada")
-public class Temporada {
+public class Temporada implements Comparable<Temporada> {
 
     @Id
     @GeneratedValue
@@ -99,5 +100,10 @@ public class Temporada {
         }
         return serie.getProximoEpisodioExtrator().isProximoEpisodioAssistir(episodios, episodioAtual);
     }
+
+	@Override
+	public int compareTo(Temporada temporada) {
+		return this.getNumero() - temporada.getNumero();
+	}
 
 }
