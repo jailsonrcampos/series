@@ -48,7 +48,17 @@ public class GenericDAO {
      * descrito na Entidade.
      */
     public <T> List<T> findAllByClass(Class clazz) {
-        String hql = "FROM " + clazz.getName() + " c ORDER BY c.id ASC";
+        String hql = "FROM " + clazz.getName();
+        Query hqlQuery = JPA.em().createQuery(hql);
+        return hqlQuery.getResultList();
+    }
+    
+    /**
+     * Procura todos os objetos de uma certa classe pelo seu {@code className}
+     * descrito na Entidade e ordena por critério.
+     */
+    public <T> List<T> findAllByClassOrdered(Class clazz, String criterio) {
+        String hql = "FROM " + clazz.getName() + " c ORDER BY c." + criterio + " ASC";
         Query hqlQuery = JPA.em().createQuery(hql);
         return hqlQuery.getResultList();
     }
